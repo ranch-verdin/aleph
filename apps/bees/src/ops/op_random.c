@@ -101,10 +101,11 @@ static void op_random_in_seed(op_random_t* random, const io_t v) {
 }
 
 static void op_random_in_trig(op_random_t* random, const io_t v) {
+  u32 tmp;
   random->x = random->x * random->c + random->a;
-  random->val = (random->x >> random->bitShift);
-  random->val %= random->range;
-  random->val += random->min;
+  tmp = (random->x >> random->bitShift);
+  tmp %= random->range;
+  random->val = random->min + tmp;
   /* printf("%d\n", random->val); */
   net_activate(random, 0, random->val);
 }
@@ -125,6 +126,7 @@ const u8* op_random_unpickle(op_random_t* op, const u8* src) {
   src = unpickle_io(src, &(op->trig));
   src = unpickle_io(src, &(op->seed));
   op->x = op->seed;
+  countBits(op);
   return src;
 }
 
