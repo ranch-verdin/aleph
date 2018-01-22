@@ -114,5 +114,6 @@ const u8* op_linlin_unpickle(op_linlin_t* op, const u8* src ) {
   src = unpickle_io(src, &(op->imax));
   src = unpickle_io(src, &(op->omin));
   src = unpickle_io(src, &(op->omax));
+  calculate_scale_factor(op);
   return src;
 }
