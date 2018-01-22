@@ -68,14 +68,14 @@ static void op_linlin_in_in(op_linlin_t* linlin, const io_t v) {
   // out = (in - off) * a + b;
   linlin->in = v;
   s32 out = linlin->scale_factor * (v - linlin->imin);
-  out = out >> 15;
+  out = out >> 14;
   out += linlin->omin;
   net_activate(linlin, 0, out);
 }
 void calculate_scale_factor(op_linlin_t *linlin) {
   s32 mul = linlin->omax - linlin->omin;
   s32 div = linlin->imax - linlin->imin;
-  linlin->scale_factor = mul << 15;
+  linlin->scale_factor = mul << 14;
   if (div) {
     linlin->scale_factor += div >> 1;
     linlin->scale_factor /= div;
